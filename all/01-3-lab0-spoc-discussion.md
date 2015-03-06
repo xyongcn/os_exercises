@@ -110,6 +110,7 @@ SETGATE(intr, 0,1,2,3);
 - [x]  
 
 > 这是一个双向链表的实现。
+```
 #include <list.h>
 list_entry a,b,c;
 
@@ -123,7 +124,7 @@ int main()
 	list_empty(b);//true
 	return 0;
 }
-
+```
 ---
 
 ## 开放思考题
