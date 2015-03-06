@@ -109,20 +109,20 @@ SETGATE(intr, 0,1,2,3);
 请分析 [list.h](https://github.com/chyyuu/ucore_lab/blob/master/labcodes/lab2/libs/list.h)内容中大致的含义，并能include这个文件，利用其结构和功能编写一个数据结构链表操作的小C程序
 - [x]  
 
-> 这是一个双向链表的实现。
+这是一个双向链表的实现。
+
 ```
 #include <list.h>
 list_entry a,b,c;
-
 int main()
 {
-	list_init(a);//a
-	list_add_before(a,c);//ca
-	list_add_after(c,b);//cba
-	list_del(c);//ba
-	list_del_init(a);//b a
-	list_empty(b);//true
-	return 0;
+    list_init(a);//a
+    list_add_before(a,c);//ca
+    list_add_after(c,b);//cba
+    list_del(c);//ba
+    list_del_init(a);//b a
+    list_empty(b);//true
+    return 0;
 }
 ```
 ---
