@@ -20,7 +20,8 @@ NOTICE
  ```
 - [x]  
 
->  
+>  首先调用pic_init对8259中断控制器进行初始化，其主要过程是对相应的寄存器的一些位上面修改以设置初始状态；
+>  然后调用idt_init对IDT进行初始化，设置中断描述符；然后调用clock_init初始化时钟；最后调用intr_enable使能中断。
 
 lab1中完成了对哪些外设的访问？ (w2l2)
  ```
@@ -32,7 +33,7 @@ lab1中完成了对哪些外设的访问？ (w2l2)
  ```
 - [x]  
 
->  
+>  时钟，串口，并口，CGA，键盘
 
 lab1中的cprintf函数最终通过哪些外设完成了对字符串的输出？ (w2l2)
  ```
@@ -44,7 +45,7 @@ lab1中的cprintf函数最终通过哪些外设完成了对字符串的输出？
  ```
 - [x]  
 
->  
+>  串口，并口，CGA
 
 ---
 
@@ -55,18 +56,43 @@ lab1中的cprintf函数最终通过哪些外设完成了对字符串的输出？
 lab1中printfmt函数用到了可变参，请参考写一个小的linux应用程序，完成实现定义和调用一个可变参数的函数。(spoc)
 - [x]  
 
+```
+#include "stdio.h"
+#include "stdarg.h"
+void simple_va_fun(int start, ...)
+{
+    va_list arg_ptr;//存储参数地址的指针
+    int nArgValue =start;
+    int nArgCout=0;     //可变参数的数目
+    va_start(arg_ptr,start); //以固定参数的地址为起点确定变参的内存起始地址。
+    do
+    {
+        ++nArgCout;
+        printf("the %d th arg: %d\n",nArgCout,nArgValue);     //输出各参数的值
+        nArgValue = va_arg(arg_ptr,int);                      //得到下一个可变参数的值
+    } while(nArgValue != -1);               
+    return;
+}
+int main(int argc, char* argv[])
+{
+    simple_va_fun(100,-1);
+    simple_va_fun(100,200,-1);
+       return 0;
+}
+```
+
 
 
 如果让你来一个阶段一个阶段地从零开始完整实现lab1（不是现在的填空考方式），你的实现步骤是什么？（比如先实现一个可显示字符串的bootloader（描述一下要实现的关键步骤和需要注意的事项），再实现一个可加载ELF格式文件的bootloader（再描述一下进一步要实现的关键步骤和需要注意的事项）...） (spoc)
 - [x]  
 
-> 
+> 先实现一个可显示字符串的bootloader，其中的关键步骤是初始化时钟以及各个外设，然后完成到保护模式的转换；再实现一个可加载ELF格式文件的bootloader，其中的关键步骤是了解读取磁盘的格式以及ELF文件的格式。
 
 
 如何能获取一个系统调用的调用次数信息？如何可以获取所有系统调用的调用次数信息？请简要说明可能的思路。(spoc)
 - [x]  
 
-> 
+> 使用strace -c 即可。执行结果可以清楚的显示调用了那些系统函数，调用次数多少，消耗了多少时间等等这些信息。
 
 如何修改lab1, 实现一个可显示字符串"THU LAB1"且依然能够正确加载ucore OS的bootloader？如果不能完成实现，请说明理由。
 - [x]  
