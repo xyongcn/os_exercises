@@ -30,7 +30,7 @@ NOTICE
 ## 小组思考题
 ---
 
-（1）(spoc) 某系统使用请求分页存储管理，若页在内存中，满足一个内存请求需要150ns。若缺页率是10%，为使有效访问时间达到0.5ms,求不在内存的页面的平均访问时间。请给出计算步骤。 
+（1）(spoc) 某系统使用请求分页存储管理，若页在内存中，满足一个内存请求需要150ns (10^-9s)。若缺页率是10%，为使有效访问时间达到0.5us(10^-6s),求不在内存的页面的平均访问时间。请给出计算步骤。 
 
 - [x]  
 
@@ -53,7 +53,7 @@ VALID==1表示，表示映射存在；VALID==0表示，表示映射不存在。
 PFN6..0:页帧号
 PT6..0:页表的物理基址>>5
 ```
-在[物理内存模拟数据文件](./03-2-spoc-testdata.md)中，给出了4KB物理内存空间的值，请回答请回答下列虚地址是否有合法对应的物理内存，请给出对应的pde index, pde contents, pte index, pte contents。
+在[物理内存模拟数据文件](./03-2-spoc-testdata.md)中，给出了4KB物理内存空间的值，请回答下列虚地址是否有合法对应的物理内存，请给出对应的pde index, pde contents, pte index, pte contents。
 ```
 Virtual Address 6c74
 Virtual Address 6b22
@@ -137,12 +137,12 @@ Virtual Address 948b:
 ```
 
 
-（3）请基于你对原理课二级页表的理解，并参考Lab2建页表的过程，设计一个应用程序可模拟实现上述计算机系统，并可正确完成二级页表转换。
+（3）请基于你对原理课二级页表的理解，并参考Lab2建页表的过程，设计一个应用程序（可基于python, ruby, C, C++，LISP等）可模拟实现(2)题中描述的抽象OS，可正确完成二级页表转换。
 
 
 （4）假设你有一台支持[反置页表](http://en.wikipedia.org/wiki/Page_table#Inverted_page_table)的机器，请问你如何设计操作系统支持这种类型计算机？请给出设计方案。
 
-
+ (5)[X86的页面结构](http://os.cs.tsinghua.edu.cn/oscourse/OS2015/lecture06#head-1f58ea81c046bd27b196ea2c366d0a2063b304ab)
 --- 
 
 ## 扩展思考题
