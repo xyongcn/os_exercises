@@ -35,6 +35,24 @@ time ./goodlocality
 ```
 可以看到其执行时间。
 
+```
+10485760 count computing over!
+
+real  0m0.086s
+user  0m0.037s
+sys 0m0.005s
+
+把i和j的枚举顺序调换后：
+
+10485760 count computing over!
+
+real  0m0.186s
+user  0m0.164s
+sys 0m0.005s
+
+可以发现，充分利用空间局部性可以高效地提高程序运行的效率。
+```
+
 ## 小组思考题目
 ----
 
@@ -117,6 +135,28 @@ Virtual Address 1e6f(0 001_11 10_011 0_1111):
   disk 16: 00 0a 15 1a 03 00 09 13 1c 0a 18 03 13 07 17 1c 
            0d 15 0a 1a 0c 12 1e 11 0e 02 1d 10 15 14 07 13
       --> To Disk Sector Address 0x2cf(0001011001111) --> Value: 1c
+```
+
+答案：
+```
+Virtual Address 6653:
+  -->pde index:0x19 pde contents:(valid 0, pfn 7f)
+    Fault (page directory entry not valid)
+Virtual Address 1c13:
+  -->pde index:0x07 pde contents:(valid 1, pfn 3d)
+    -->pte index:0x00 pte contents:(valid 1, pt 76)
+      -->To Physical Address 0xed3 --> Value: 12
+Virtual Address 6890:
+  -->pde index:0x1a pde contents:(valid 0, pfn 7f)
+    Fault (page directory entry not valid)
+Virtual Address 0af6:
+  -->pde index:0x02 pde contents:(valid 1, pfn 21)
+    -->pte index:0x17 pte contents:(valid 0, pt 7f)
+      -->To Disk Sector Page 0x7f, Fatal.
+Virtual Address 1e6f:
+  -->pde index:0x07 pde contents:(valid 1, pfn 3d)
+    -->pte index:0x13 pte contents:(valid 0, pt 16)
+      -->To Disk Sector Address 0x2cf --> Value: 1c
 ```
 
 ## 扩展思考题
