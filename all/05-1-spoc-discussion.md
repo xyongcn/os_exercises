@@ -51,7 +51,6 @@ NOTICE
 (1) (spoc)设计一个简化的进程管理子系统，可以管理并调度如下简化进程.给出了[参考代码](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab4/process-concept-homework.py)，请理解代码，并完成＂YOUR CODE"部分的内容．　可２个人一组
 
 ```
-
 #! /usr/bin/env python
 
 import sys
@@ -111,17 +110,19 @@ class scheduler:
     def move_to_ready(self, expected, pid=-1):
         if pid == -1:
             pid = self.curr_proc
-        self.proc_info[proc_id][PROC_STATE] = STATE_READY
+        self.proc_info[pid][PROC_STATE] = STATE_READY
+        if pid == self.curr_proc:
+            self.next_proc()
         return
 
     #change to RUNNING STATE, the current proc's state should be expected
     def move_to_running(self, expected):
-        self.proc_info[proc_id][PROC_STATE] = STATE_RUNNING
+        self.proc_info[pid][PROC_STATE] = STATE_RUNNING
         return
 
     #change to DONE STATE, the current proc's state should be expected
     def move_to_done(self, expected):
-        self.proc_info[proc_id][PROC_STATE] = STATE_DONE
+        self.proc_info[pid][PROC_STATE] = STATE_DONE
         return
 
     #choose next proc using FIFO/FCFS scheduling, If pid==-1, then pid=self.curr_proc
@@ -139,7 +140,6 @@ class scheduler:
                 self.move_to_running(STATE_READY)
                 return
         self.curr_proc = pid
-        self.move_to_running(STATE_READY)
         return
 
     def get_num_processes(self):
@@ -206,7 +206,6 @@ class scheduler:
             if self.proc_info[self.curr_proc][PROC_STATE] == STATE_RUNNING and \
                    len(self.proc_info[self.curr_proc][PROC_CODE]) > 0:
                 instruction_to_execute = self.proc_info[self.curr_proc][PROC_CODE].pop(0)
-                self.proc_info[self.curr_proc][PROC_PC] +=1
 
             # OUTPUT: print what everyone is up to
             print '%3d ' % clock_tick,
@@ -221,8 +220,7 @@ class scheduler:
             # if this is an YIELD instruction, switch to ready state
             # and add an io completion in the future
             if instruction_to_execute == DO_YIELD:
-                move_to_ready(STATE_RUNNING)
-                self.next_proc()
+                move_to_ready(STATE_RUNNING);
 
             # ENDCASE: check if currently running thing is out of instructions
             self.check_if_done()
