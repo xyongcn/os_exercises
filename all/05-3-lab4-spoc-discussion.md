@@ -53,16 +53,57 @@ tf和context中的esp
 ### 1. 分析并描述创建分配进程的过程
 
 > 注意 state、pid、cr3，context，trapframe的含义
+> 调用alloc_proc创建进程：
+
+```
+        memset(proc, 0, sizeof(struct proc_struct));	//初始化
+        cprinf("process generated with UNINIT!\n");
+        proc->state = PROC_UNINIT;						//设置初始状态
+        proc->pid = -1;									//初始pid
+        proc->cr3 = boot_cr3;							//初始页表基址
+```
 
 ### 练习2：分析并描述新创建的内核线程是如何分配资源的
 
 > 注意 理解对kstack, trapframe, context等的初始化
+> 调用kernel_thread来fork并执行：
 
+```
+    struct trapframe tf;
+    memset(&tf, 0, sizeof(struct trapframe));			//初始化
+    tf.tf_cs = KERNEL_CS;								//设置段
+    tf.tf_ds = tf.tf_es = tf.tf_ss = KERNEL_DS;
+    tf.tf_regs.reg_ebx = (uint32_t)fn;					//设置线程起始地址
+    tf.tf_regs.reg_edx = (uint32_t)arg;					//名字
+    tf.tf_eip = (uint32_t)kernel_thread_entry;			//设置返回地址
+    return do_fork(clone_flags | CLONE_VM, 0, &tf);		//fork
+```
+> fork时：
+
+```
+    //    分配TCB
+    proc = alloc_proc();
+    proc->pid = get_pid();
+    //    分配内核栈
+    setup_kstack(proc);
+    //    初始化tf和上下文
+    copy_thread(proc, stack, tf);
+    //    更新链表
+    list_add_before(&proc_list, &proc->list_link);
+    //    唤醒线程
+    wakeup_proc(proc);
+    //    设置返回值
+    nr_process++;
+    ret = proc->pid;
+	//    设置父线程
+	proc->parent=current;
+```
 
 当前进程中唯一，操作系统的整个生命周期不唯一，在get_pid中会循环使用pid，耗尽会等待
 
 ### 练习3：阅读代码，在现有基础上再增加一个内核线程，并通过增加cprintf函数到ucore代码中
 能够把进程的生命周期和调度动态执行过程完整地展现出来
+> 见[这里](https://github.com/williamljb/ucore_lab/tree/master/related_info/lab4/lab4-spoc-discuss)
 
 ### 练习4 （非必须，有空就做）：增加可以睡眠的内核线程，睡眠的条件和唤醒的条件可自行设计，并给出测试用例，并在spoc练习报告中给出设计实现说明
 
