@@ -48,6 +48,49 @@ https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-boot-with
 
 (报告可课后完成)请理解grub multiboot spec的含义，并分析ucore_lab是如何实现符合grub multiboot spec的，并形成spoc练习报告。
 
+```
+当引导程序调用32位操作系统时，机器状态必须如下：
+
+EAX 
+必须包含魔数0x2BADB002；这个值指出操作系统是被一个符合Multiboot规范的引导程序载入的（这样就算是另一种引导程序也可以引导这个操作系统）。
+
+EBX 
+必须包含由引导程序提供的Multiboot信息结构的物理地址（参见引导信息格式）。
+
+CS 
+必须是一个偏移量位于0到0xFFFFFFFF之间的32位可读/可执行代码段。这里的精确值未定义。
+
+DS 
+ES 
+FS 
+GS 
+SS 
+必须是一个偏移量位于0到0xFFFFFFFF之间的32位可读/可执行代码段。这里的精确值未定义。
+
+A20 gate
+必须已经开启。
+
+CR0 
+第31位（PG）必须为0。第0位（PE）必须为1。其他位未定义。
+
+EFLAGS 
+第17位（VM）必须为0。第9位（IF）必须为1 。其他位未定义。
+所有其他的处理器寄存器和标志位未定义。这包括：
+
+ESP 
+当需要使用堆栈时，OS映象必须自己创建一个。
+
+GDTR 
+尽管段寄存器像上面那样定义了，GDTR也可能是无效的，所以OS映象决不能载入任何段寄存器（即使是载入相同的值也不行！）直到它设定了自己的GDT。
+
+IDTR 
+OS映象必须在设置完它的IDT之后才能开中断。
+尽管如此，其他的机器状态应该被引导程序留做正常的工作顺序，也就是同BIOS（或者DOS，如果引导程序是从那里启动的话）初始化的状态一样。换句话说，操作系统应该能够在载入后进行BIOS调用，直到它自己重写BIOS数据结构之前。还有，引导程序必须将PIC设定为正常的BIOS/DOS 状态，尽管它们有可能在进入32位模式时改变它们。
+
+当lab1中的bootloader转换到了保护模式之后，机器状态即符合上述multiboot的要求。
+
+```
+
 ### (2)(spoc) 理解用户进程的生命周期。
 
 > 需写练习报告和简单编码，完成后放到git server 对应的git repo中
@@ -65,7 +108,15 @@ https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-boot-with
 
 > 注意，请关注：内核如何创建用户进程的？用户进程是如何在用户态开始执行的？用户态的堆栈是保存在哪里的？
 
+```
+创建用户进程： initmain -> usermain -> KERNEL_EXECVE
+设置用户态： load_icode中设置了用户的代码段和数据段
+用户态堆栈： USTACKTOP
+```
+
 阅读代码，在现有基础上再增加一个用户进程A，并通过增加cprintf函数到ucore代码中，
 能够把个人思考题和上述知识点中的内容展示出来：即在ucore运行过程中通过`cprintf`函数来完整地展现出来进程A相关的动态执行和内部数据/状态变化的细节。(约全面细致约好)
+
+> 见[这里](https://github.com/williamljb/ucore_lab/tree/master/related_info/lab5/lab5-spoc-discuss)
 
 请完成如下练习，完成代码填写，并形成spoc练习报告
