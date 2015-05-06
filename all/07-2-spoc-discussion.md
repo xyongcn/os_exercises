@@ -51,3 +51,8 @@ s.count--;              //有可用资源，占用该资源；
 ## 小组思考题
 
 1. （spoc） 每人用python threading机制用信号量和条件变量两种手段分别实现[47个同步问题](07-2-spoc-pv-problems.md)中的一题。向勇老师的班级从前往后，陈渝老师的班级从后往前。请先理解[]python threading 机制的介绍和实例](https://github.com/chyyuu/ucore_lab/tree/master/related_info/lab7/semaphore_condition)
+
+> 16.在一个盒子里，混装了数量相等的黑白围棋子·现在用自动分拣系统把黑子、白子分开，设分拣系统有二个进程P1 和P2 ，其中P1 拣白子；P2 拣黑子。规定每个进程每次拣一子；当一个进程在拣时，不允许另一个进程去拣；当一个进程拣了一子时，必须让另一个进程去拣．试写出两进程P1 和P2 能并发正确执行的程序。
+
+> 信号量在[这里](semaphore.py)
+> 条件变量在[这里](condition.py)
