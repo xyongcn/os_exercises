@@ -85,14 +85,13 @@ NTFS卷启动扇区（Volume Boot Sector，NTFS系统（元数据）文件，主
 每个目录在MFT里都有一个记录，它是目录信息的主要存储地。MFT里的记录存储了目录的如下属性：
 
 ```
-Header (H)：这是NTFS用来管理文件或目录的数据，包括NTFS内部使用的标识序列号，指向文件或目录属性的指针，和记录空闲空间的指针。注意Header不是一个属性，而是MFT记录的头信息。
+Header (H)：                          这是NTFS用来管理文件或目录的数据，包括NTFS内部使用的标识序列号，指向文件或目录属性的指针，和记录空闲空间的指针。注意Header不是一个属性，而是MFT记录的头信息。
 Standard Information Attribute (SI)：这个属性是文件或目录的“标准”信息，例如创建、修改、访问时间戳，以及文件的“标准”属性（只读，隐藏等）。
-File Name Attribute (FN)：这个属性存储目录的名字。注意一个目录可以有多个名字属性，例如“常规”名字，MS-DOS兼容的短名字，或者类似POSIX的硬链接名字。
-Index Root Attribute：这个属性包含了目录下所有文件的“标准”信息。如果文件数太多，那么就只包含部分文件的信息，其余的文件信息存储于外部的index buffer attribute里，后面会介绍。
-Index Allocation Attribute：如果目录下的文件过多，上面的Index Root Attribute放不下，就会使用这个属性包含指向index buffer入口的指针。
-Security Descriptor (SD) Attribute：包含目录及其内容的访问控制信息，或叫安全信息（security information）。目录的访问控制列表（ACLs ：Access Control Lists）和相关数据就存储于此。
+File Name Attribute (FN)：           这个属性存储目录的名字。注意一个目录可以有多个名字属性，例如“常规”名字，MS-DOS兼容的短名字，或者类似POSIX的硬链接名字。
+Index Root Attribute：               这个属性包含了目录下所有文件的“标准”信息。如果文件数太多，那么就只包含部分文件的信息，其余的文件信息存储于外部的index buffer attribute里，后面会介绍。
+Index Allocation Attribute：         如果目录下的文件过多，上面的Index Root Attribute放不下，就会使用这个属性包含指向index buffer入口的指针。
+Security Descriptor (SD) Attribute： 包含目录及其内容的访问控制信息，或叫安全信息（security information）。目录的访问控制列表（ACLs ：Access Control Lists）和相关数据就存储于此。
 ```
-
 文件分配方式：
 
 ```
