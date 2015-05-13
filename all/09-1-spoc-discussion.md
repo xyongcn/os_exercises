@@ -75,9 +75,10 @@
   - [https://piazza.com/class/i5j09fnsl7k5x0?cid=419 ZFS文件系统分析]
   - [https://piazza.com/class/i5j09fnsl7k5x0?cid=420 YAFFS文件系统分析]
 
-  > NTFS文件卷结构：
+NTFS文件卷结构：
 NTFS卷启动扇区（Volume Boot Sector，NTFS系统（元数据）文件，主文件列表（MFT），分配单元（allocation units）。
-  > 目录结构：
+
+目录结构：
 多级（hierarchical）模型或目录树（directory tree）模型。目录树的“基（base）”是根（root）目录，NTFS系统的重要元数据文件之一。
 在根目录里，存储了指向其他文件或目录的引用，每个子目录里又可以有任意的文件和目录，这样就形成了一个树状结构。文件就是属性的集合，会自己
 包含需要的描述信息和数据。目录同样只包含自己的信息，而不用管其下的文件。
@@ -91,7 +92,8 @@ Index Root Attribute：这个属性包含了目录下所有文件的“标准”
 Index Allocation Attribute：如果目录下的文件过多，上面的Index Root Attribute放不下，就会使用这个属性包含指向index buffer入口的指针。
 Security Descriptor (SD) Attribute：包含目录及其内容的访问控制信息，或叫安全信息（security information）。目录的访问控制列表（ACLs ：Access Control Lists）和相关数据就存储于此。
 ```
-  > 文件分配方式：
+
+文件分配方式：
 
 ```
 1.         首先NTFS试图把整个文件放进MFT记录里。只有少数非常小的文件可能成功。
