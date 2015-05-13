@@ -76,7 +76,7 @@
   - [https://piazza.com/class/i5j09fnsl7k5x0?cid=420 YAFFS文件系统分析]
 
 NTFS文件卷结构：
-NTFS卷启动扇区（Volume Boot Sector，NTFS系统（元数据）文件，主文件列表（MFT），分配单元（allocation units）。
+NTFS卷启动扇区（Volume Boot Sector），NTFS系统（元数据）文件，主文件列表（MFT），分配单元（allocation units）。
 
 目录结构：
 多级（hierarchical）模型或目录树（directory tree）模型。目录树的“基（base）”是根（root）目录，NTFS系统的重要元数据文件之一。
