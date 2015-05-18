@@ -48,6 +48,38 @@
 1. (spoc) 理解文件访问的执行过程，即在ucore运行过程中通过`cprintf`函数来完整地展现出来读一个文件在ucore中的整个执行过程，(越全面细致越好)
 完成代码填写，并形成spoc练习报告，需写练习报告和简单编码，完成后放到git server 对应的git repo中
 
+打开文件为一个系统调用，通过中断调用sysfile_open，然后新建一个文件句柄，并调用vfs_open来打开文件。vfs则调用sfs来具体打开一个文件。
+sfs首先要查找路径，找到对应的inode。找到之后返回就可以新建出一个vfs的inode了。之后对文件进行读入的话就可以直接通过inode执行了。
+
+输出如下：
+```
+syscall!!!
+sysfile_open!!!
+file_open!!!
+fd_array_alloc!!!
+vfs_open!!!
+sfs_lookup!!!
+sfs_lookup_once!!!
+sfs_dirent_search_nolock!!!
+sfs_rbuf!!!
+ide_read_secs!!!
+sfs_rbuf!!!
+ide_read_secs!!!
+sfs_rbuf!!!
+ide_read_secs!!!
+sfs_rbuf!!!
+ide_read_secs!!!
+sfs_rbuf!!!
+ide_read_secs!!!
+sfs_rbuf!!!
+ide_read_secs!!!
+sfs_rbuf!!!
+ide_read_secs!!!
+sfs_rbuf!!!
+ide_read_secs!!!
+```
+可以看到从syscall 到 ide_read读扇区的输出信息。
+
 2. （spoc） 在下面的实验代码的基础上，实现基于文件系统的pipe IPC机制
 
 ### 练习用的[lab8 spoc exercise project source code](https://github.com/chyyuu/ucore_lab/tree/master/labcodes_answer/lab8_result)
